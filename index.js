@@ -28,21 +28,21 @@ app.get('/wordnet', function(request,response){
     $ = cheerio.load(str); //str is the entire webpage from www.cfilt.iitb.ac.in/indowordnet/first?langno=9&queryword=WORD, then loaded Cheerio
     var pos, syn, gloss, exstmt, gloeng;
     var json = { pos : "", synonyms : "", gloss : "", example_statement: "", glossenglish :""};
-    $('#gloss').filter(function(){
+   /* $('#gloss').filter(function(){
                 var data = $(this);
                 gloss = data.text();
                 json.gloss = gloss;
-    /*var detail = $('#detail').html(); //Scrape ROUGHLY what we need
-    console.log('Cheerio#detail',detail);//For Testing*/
+    var detail = $('#detail').html(); //Scrape ROUGHLY what we need
+    console.log('Cheerio#detail',detail);//For Testing
     response.send(gloss);//Sends back the scraped html back to the user
-  });
+  });*/
     $('#ex_stmt').filter(function(){
                 var data = $(this);
                 exstmt = data.text();
                 json.example_statement = exstmt;
     /*var detail = $('#detail').html(); //Scrape ROUGHLY what we need
     console.log('Cheerio#detail',detail);//For Testing*/
-    response.send(gloss);//Sends back the scraped html back to the user
+    response.send(exstmt);//Sends back the scraped html back to the user
   });
 
   $('#pos').filter(function(){
@@ -51,7 +51,7 @@ app.get('/wordnet', function(request,response){
                 json.pos = pos
     /*var detail = $('#detail').html(); //Scrape ROUGHLY what we need
     console.log('Cheerio#detail',detail);//For Testing*/
-    response.send(gloss);//Sends back the scraped html back to the user
+    response.send(pos);//Sends back the scraped html back to the user
   });
 
   $('#words').filter(function(){
@@ -60,7 +60,7 @@ app.get('/wordnet', function(request,response){
                 json.synonyms = syn
     /*var detail = $('#detail').html(); //Scrape ROUGHLY what we need
     console.log('Cheerio#detail',detail);//For Testing*/
-    response.send(gloss);//Sends back the scraped html back to the user
+    response.send(syn);//Sends back the scraped html back to the user
   });
 
 
