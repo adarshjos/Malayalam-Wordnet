@@ -32,23 +32,22 @@ app.get('/wordnet', function(request,response){
     $ = cheerio.load(str); //str is the entire webpage from www.cfilt.iitb.ac.in/indowordnet/first?langno=9&queryword=WORD, then loaded Cheerio
     var json = { pos : "", synonyms : [], gloss : "", example_statement: "", glossenglish :""};
 
- 
-    $('#words').first().find('a').each(function(){
-        json.synonyms.push($(this).text());
+    $('#words').find('a').each(function(){
+        synonyms = synonyms + $(this).text();
     });
 
-    json.pos = $('#pos').first().text(); console.log(json.pos);
-
-    json.gloss = $('#gloss').first().text().replace("\n","").replace(" ","").replace("\\","").replace(";","").trim().replace("\\n","");
-
-    json.example_statement = $("#ex_stmt").first().text().replace("\n","").replace(" ","").replace("\\","").replace(";","").trim().replace("\\n","");
-
-    json.glossenglish = $('#gloss_eng').first().text().replace("\n","").replace(" ","").replace("\\","").replace(";","").trim().replace("\\n","");
 
 
-    
+
+
+
+
+
+
+
+
     var stringified =  JSON.stringify(json);
-    
+
     console.log('Json Stringified', stringified);//For Testing
     console.log('Json Parsed',JSON.parse(stringified));
     response.send(stringified);//Sends back the scraped html back to the user  
