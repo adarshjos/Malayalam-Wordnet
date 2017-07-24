@@ -21,51 +21,29 @@ app.get('/', function(request, response) { //Use pages/index.ejs file when someo
 //Use request variable to see details about the request.
 //Use response variable to set details of the response that should be given out, when a user GETs "app.com/wordnet"
 app.get('/wordnet', function(request,response){ 
+
   response.header('Access-Control-Allow-Origin','*');                             //Enable CORS by adding the Access-Control-Allow-Origin header to the response.
+  //res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
   console.log('Request Parameter',request.query.q);                            //For Testing
   console.log('Encoded Request Parameter',encodeURIComponent(request.query.q));//For testing
+
   wordnetRequest(request.query.q,function(str){//Passes WORD from "app.com/wordnet?q=WORD" to wordnetRequest(q,mainCallback) function defined below, and after wordnetRequest is finished, it calls the function(str) defined in this line
     $ = cheerio.load(str); //str is the entire webpage from www.cfilt.iitb.ac.in/indowordnet/first?langno=9&queryword=WORD, then loaded Cheerio
-    var pos, syn, gloss, exstmt, gloeng;
     var json = { pos : "", synonyms : "", gloss : "", example_statement: "", glossenglish :""};
-   /* $('#gloss').filter(function(){
-                var data = $(this);
-                gloss = data.text();
-                json.gloss = gloss;
-    var detail = $('#detail').html(); //Scrape ROUGHLY what we need
-    console.log('Cheerio#detail',detail);//For Testing
-    response.send(gloss);//Sends back the scraped html back to the user
-  });*/
-    $('#ex_stmt').filter(function(){
-                var data = $(this);
-                exstmt = data.text();
-                json.example_statement = exstmt;
-    /*var detail = $('#detail').html(); //Scrape ROUGHLY what we need
-    console.log('Cheerio#detail',detail);//For Testing*/
-    response.send(exstmt);//Sends back the scraped html back to the user
-  });
 
-  $('#pos').filter(function(){
-                var data = $(this);
-                pos = data.text();
-                json.pos = pos
-    /*var detail = $('#detail').html(); //Scrape ROUGHLY what we need
-    console.log('Cheerio#detail',detail);//For Testing*/
-    response.send(pos);//Sends back the scraped html back to the user
-  });
+    json.gloss = $('#gloss').text().replace("\n","").replace(" ","").replace("\\","").replace(";","").trim().replace("\\n","");
+    json.glossenglish = $('#gloss_eng').text().replace("\n","").replace(" ","").replace("\\","").replace(";","").trim().replace("\\n","");
+    json.pos = $('#pos').text().replace("\n","").replace(" ","").replace("\\","").replace(";","").trim().replace("\\n","");
+    json.synonyms = $('#words').text().replace("\n","").replace(" ","").replace("\\","").replace(";","").trim().replace("\\n","");
+    json.example_statement = $('#ex_stmt').text().replace("\n","").replace(" ","").replace("\\","").replace(";","").trim().replace("\\n","");
 
-  $('#words').filter(function(){
-                var data = $(this);
-                syn = data.text();
-                json.synonyms = syn
-    /*var detail = $('#detail').html(); //Scrape ROUGHLY what we need
-    console.log('Cheerio#detail',detail);//For Testing*/
-    response.send(syn);//Sends back the scraped html back to the user
-  });
+    var stringified =  JSON.stringify(json);
 
-
-
-});
+    console.log('Json Stringified', stringified);//For Testing
+    console.log('Json Parsed',JSON.parse(stringified));
+    response.send(stringified);//Sends back the scraped html back to the user  
+  }); 
 });
 
 
