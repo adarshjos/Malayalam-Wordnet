@@ -30,12 +30,41 @@ app.get('/wordnet', function(request,response){
     var json = { pos : "", synonyms : "", gloss : "", example_statement: "", glossenglish :""};
     $('#gloss').filter(function(){
                 var data = $(this);
-                pos = data.text();
-    var detail = $('#detail').html(); //Scrape ROUGHLY what we need
-    console.log('Cheerio#detail',detail);//For Testing
-    response.send(pos);//Sends back the scraped html back to the user
+                gloss = data.text();
+                json.gloss = gloss;
+    /*var detail = $('#detail').html(); //Scrape ROUGHLY what we need
+    console.log('Cheerio#detail',detail);//For Testing*/
+    response.send(gloss);//Sends back the scraped html back to the user
   });
-  
+    $('#ex_stmt').filter(function(){
+                var data = $(this);
+                exstmt = data.text();
+                json.example_statement = exstmt;
+    /*var detail = $('#detail').html(); //Scrape ROUGHLY what we need
+    console.log('Cheerio#detail',detail);//For Testing*/
+    response.send(gloss);//Sends back the scraped html back to the user
+  });
+
+  $('#pos').filter(function(){
+                var data = $(this);
+                pos = data.text();
+                json.pos = pos
+    /*var detail = $('#detail').html(); //Scrape ROUGHLY what we need
+    console.log('Cheerio#detail',detail);//For Testing*/
+    response.send(gloss);//Sends back the scraped html back to the user
+  });
+
+  $('#words').filter(function(){
+                var data = $(this);
+                syn = data.text();
+                json.synonyms = syn
+    /*var detail = $('#detail').html(); //Scrape ROUGHLY what we need
+    console.log('Cheerio#detail',detail);//For Testing*/
+    response.send(gloss);//Sends back the scraped html back to the user
+  });
+
+
+
 });
 });
 
